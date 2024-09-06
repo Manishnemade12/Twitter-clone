@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./cardList.module.css";
-// import Card from "../card/Card";
-// import Pagination from "../pagination/Pagination";
+import Card from "../card/Card";
+import Pagination from "../pagination/Pagination";
 
 const POST_PER_PAGE = 2;
 
@@ -14,10 +14,10 @@ const CardList = ({ posts, count, page }) => {
       <h1 className={styles.title}>Recent Posts</h1>
       <div className={styles.posts}>
         {posts?.map((item) => (
-          {/* <Card item={item} key={item._id} /> */}
+          <Card item={item} key={item._id} />
         ))}
       </div>
-      {/* <Pagination page={page} hasPrev={hasPrev} hasNext={hasNext} /> */}
+      <Pagination page={page} hasPrev={hasPrev} hasNext={hasNext} />
     </div>
   );
 };
