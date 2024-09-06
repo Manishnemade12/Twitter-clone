@@ -6,35 +6,35 @@ import Pagination from "../pagination/Pagination";
 const POST_PER_PAGE = 2;
 
 const CardList = ({ posts, count, page }) => {
-  const hasPrev = POST_PER_PAGE * (page - 1) > 0;
-  const hasNext = POST_PER_PAGE * (page - 1) + POST_PER_PAGE < count;
+  const hasPrev = page > 1;
+  const hasNext = page * POST_PER_PAGE < count;
 
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Recent Posts</h1>
       <div className={styles.posts}>
-        {posts?.map((item) => (
-          <Card item={item} key={item._id} />
-        ))}
+        {posts?.length > 0 ? (
+          posts.map((item) => <Card item={item} key={item._id} />)
+        ) : (
+          <p>No posts found.</p>
+        )}
       </div>
       <Pagination page={page} hasPrev={hasPrev} hasNext={hasNext} />
     </div>
   );
 };
 
-// Use getServerSideProps for server-side rendering
 export async function getServerSideProps(context) {
-  const { query } = context;
+  const { query, req } = context;
   const page = parseInt(query.page) || 1;
   const cat = query.cat || "";
 
+  const baseUrl = req ? `http://${req.headers.host}` : '';
+
   try {
-    const res = await fetch(
-      `http://localhost:3001/api/post?page=${page}&cat=${cat}`,
-      {
-        cache: "no-store",
-      }
-    );
+    const res = await fetch(`${baseUrl}/api/post?page=${page}&cat=${cat}`, {
+      cache: "no-store",
+    });
 
     if (!res.ok) {
       throw new Error("Failed to fetch posts");

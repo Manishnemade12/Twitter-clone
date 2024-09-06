@@ -33,9 +33,14 @@ const CategoryList = ({ data }) => {
 };
 
 // Server-side rendering with getServerSideProps
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
+  const { req } = context;
+
+  // Construct the base URL based on the environment
+  const baseUrl = req ? `http://${req.headers.host}` : '';
+
   try {
-    const res = await fetch("http://localhost:3001/api/categories", {
+    const res = await fetch(`${baseUrl}/api/categories`, {
       cache: "no-store",
     });
 
