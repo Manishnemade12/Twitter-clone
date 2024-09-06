@@ -12,7 +12,7 @@ const CategoryList = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const res = await fetch("http://localhost:3001/api/categories", {
+        const res = await fetch("https://next-blog-plum-seven.vercel.app/api/categories", {
           cache: "no-store",
         });
         
