@@ -35,6 +35,7 @@ export async function getServerSideProps(context) {
     const res = await fetch(`${baseUrl}/api/post?page=${page}&cat=${cat}`, {
       cache: "no-store",
     });
+    console.log(res)
 
     if (!res.ok) {
       throw new Error("Failed to fetch posts");

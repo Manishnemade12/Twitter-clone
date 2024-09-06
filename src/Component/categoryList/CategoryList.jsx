@@ -1,10 +1,45 @@
-// categoryList.js
-import React from "react";
+"use client"
+import React, { useState, useEffect } from "react";
 import styles from "./categoryList.module.css";
 import Link from "next/link";
 import Image from "next/image";
 
-const CategoryList = ({ data }) => {
+const CategoryList = () => {
+  const [data, setData] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const res = await fetch("http://localhost:3001/api/categories", {
+          cache: "no-store",
+        });
+        
+        if (!res.ok) {
+          throw new Error("Failed to fetch categories");
+        }
+
+        const result = await res.json();
+        setData(result);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getData();
+  }, []);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Popular Categories</h1>
@@ -31,29 +66,5 @@ const CategoryList = ({ data }) => {
     </div>
   );
 };
-
-// Server-side rendering with getServerSideProps
-export async function getServerSideProps(context) {
-  const { req } = context;
-
-  // Construct the base URL based on the environment
-  const baseUrl = req ? `http://${req.headers.host}` : '';
-
-  try {
-    const res = await fetch(`${baseUrl}/api/categories`, {
-      cache: "no-store",
-    });
-
-    if (!res.ok) {
-      throw new Error("Failed to fetch categories");
-    }
-
-    const data = await res.json();
-    return { props: { data } };
-  } catch (error) {
-    console.error(error);
-    return { props: { data: [] } }; // handle error gracefully
-  }
-}
 
 export default CategoryList;
