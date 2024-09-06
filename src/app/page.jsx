@@ -1,7 +1,10 @@
 import Link from "next/link";
 import styles from "./homepage.module.css";
+<<<<<<< HEAD
 // import Featured from "@/Component/featured/featured";
 // import CategoryList from "@/Component/categoryList/CategoryList";
+=======
+>>>>>>> parent of 8968c46 (footer categorylist and feature list component added)
 // import CategoryList from "@/Component/categoryList/CategoryList";
 // import Featured from "@/Component/featured/featured";
 // import CardList from "@/Component/cardList/CardList";
